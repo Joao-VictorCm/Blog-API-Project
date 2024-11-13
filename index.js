@@ -45,13 +45,24 @@ app.get("/posts", (req, res) =>{
 })
 
 //DESAFIO 2: OBTER um post específico por id
-app.get("/posts/id:", (req, res) => {
+app.get("/posts:", (req, res) => {
   const id = perseInt(req.params.id)
   const foundPost = posts.find((post) => post.id === id)
   res.json(foundPost)
 })
 
 //DESAFIO 3: POSTAR uma nova postagem
+app.post("/posts", (req, res) =>{
+  const newPost ={
+    id: posts.length +1,
+    title: req.body.title,
+    content: req.body.content,
+    author: req.body.author,
+    date: req.body.date
+  }
+  posts.push(newPost)
+  res.json(newPost)
+})
 
 //DESAFIO 4: PATCH um post quando quiser apenas atualizar um parâmetro
 
