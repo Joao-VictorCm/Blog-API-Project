@@ -38,17 +38,19 @@ let lastId = 3;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//Write your code here//
+//DESAFIO 1: OBTER todas as postagens
+app.get("/posts", (req, res) =>{
+  const post = posts
+  res.json(post)
+})
 
-//CHALLENGE 1: GET All posts
+//DESAFIO 2: OBTER um post específico por id
 
-//CHALLENGE 2: GET a specific post by id
+//DESAFIO 3: POSTAR uma nova postagem
 
-//CHALLENGE 3: POST a new post
+//DESAFIO 4: PATCH um post quando quiser apenas atualizar um parâmetro
 
-//CHALLENGE 4: PATCH a post when you just want to update one parameter
-
-//CHALLENGE 5: DELETE a specific post by providing the post id.
+//DESAFIO 5: EXCLUIR uma postagem específica fornecendo o ID da postagem.
 
 app.listen(port, () => {
   console.log(`API is running at http://localhost:${port}`);

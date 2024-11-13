@@ -6,12 +6,19 @@ const app = express();
 const port = 3000;
 const API_URL = "http://localhost:4000";
 
-app.use(express.static("public"));
+
+app.use(express.static("public", {
+  setHeaders: (res, path) =>{
+      if(path.endsWith(".css")){
+          res.set("Content-Type", "text/css")
+      }
+  }
+}))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Route to render the main page
+//Rota para renderizar a página principal
 app.get("/", async (req, res) => {
   try {
     const response = await axios.get(`${API_URL}/posts`);
@@ -22,7 +29,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-// Route to render the edit page
+// Rota para renderizar a página de edição
 app.get("/new", (req, res) => {
   res.render("modify.ejs", { heading: "New Post", submit: "Create Post" });
 });
@@ -41,7 +48,7 @@ app.get("/edit/:id", async (req, res) => {
   }
 });
 
-// Create a new post
+//Cria uma nova postagem
 app.post("/api/posts", async (req, res) => {
   try {
     const response = await axios.post(`${API_URL}/posts`, req.body);
@@ -52,7 +59,8 @@ app.post("/api/posts", async (req, res) => {
   }
 });
 
-// Partially update a post
+
+//Atualiza parcialmente uma postagem
 app.post("/api/posts/:id", async (req, res) => {
   console.log("called");
   try {
@@ -67,7 +75,7 @@ app.post("/api/posts/:id", async (req, res) => {
   }
 });
 
-// Delete a post
+//Excluir uma postagem
 app.get("/api/posts/delete/:id", async (req, res) => {
   try {
     await axios.delete(`${API_URL}/posts/${req.params.id}`);
