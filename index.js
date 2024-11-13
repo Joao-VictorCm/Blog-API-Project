@@ -45,26 +45,39 @@ app.get("/posts", (req, res) =>{
 })
 
 //DESAFIO 2: OBTER um post específico por id
-app.get("/posts:", (req, res) => {
-  const id = perseInt(req.params.id)
-  const foundPost = posts.find((post) => post.id === id)
+app.get("/posts/:id", (req, res) => {
+  const id = req.params.id
+  const foundPost = posts.find((post) => post.id == id)
   res.json(foundPost)
 })
 
 //DESAFIO 3: POSTAR uma nova postagem
 app.post("/posts", (req, res) =>{
-  const newPost ={
-    id: posts.length +1,
+  const newId = lastId += 1;
+  const post = {
+    id: newId,
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
-    date: req.body.date
-  }
-  posts.push(newPost)
-  res.json(newPost)
+    date: new Date(),
+  };
+  lastId = newId;
+  posts.push(post);
+  res.status(201).json(post);
 })
 
 //DESAFIO 4: PATCH um post quando quiser apenas atualizar um parâmetro
+app.patch("/posts/:id", (req, res) => {
+  const searchId = req.params.id
+  const post = posts.find((p) => p.id == searchId);
+  if (!post) return res.status(404).json({ message: "Post not found" });
+
+  if (req.body.title) post.title = req.body.title;
+  if (req.body.content) post.content = req.body.content;
+  if (req.body.author) post.author = req.body.author;
+
+  res.json(post);
+});
 
 //DESAFIO 5: EXCLUIR uma postagem específica fornecendo o ID da postagem.
 
