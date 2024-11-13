@@ -80,6 +80,14 @@ app.patch("/posts/:id", (req, res) => {
 });
 
 //DESAFIO 5: EXCLUIR uma postagem específica fornecendo o ID da postagem.
+app.delete("/posts/:id", (req, res) =>{
+  const searchId = req.params.id
+  const index = posts.findIndex((p) => p.id == searchId) 
+  if(index === -1) return res.status(404).json({message: "Post not found"})
+  
+  posts.splice(index, 1)
+  res.json({message: "Post deleted"})
+})
 
 app.listen(port, () => {
   console.log(`API is running at http://localhost:${port}`);
