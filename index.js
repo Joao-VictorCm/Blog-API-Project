@@ -45,6 +45,11 @@ app.get("/posts", (req, res) =>{
 })
 
 //DESAFIO 2: OBTER um post específico por id
+app.get("/posts/id:", (req, res) => {
+  const id = perseInt(req.params.id)
+  const foundPost = posts.find((post) => post.id === id)
+  res.json(foundPost)
+})
 
 //DESAFIO 3: POSTAR uma nova postagem
 
